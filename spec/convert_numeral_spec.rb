@@ -8,7 +8,7 @@ end
 
 RSpec.describe Integer do
   describe '#to_chinese_numeral' do
-    it '' do
+    it 'convert integer into chinese numeral' do
       expect(0.to_chinese_numeral).to eq '零'
       expect(1.to_chinese_numeral).to eq '一'
       expect(2.to_chinese_numeral).to eq '二'

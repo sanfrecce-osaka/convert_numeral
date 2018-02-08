@@ -4,7 +4,7 @@ module ConvertNumeral
 end
 
 class Integer
-  UNITS_GREATER_THAN_TEN_THOUSAND = [''].concat(%w[万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数]).map(&:freeze).freeze
+  UNITS_GREATER_THAN_TEN_THOUSAND = [''].concat(%w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数)).map(&:freeze).freeze
   UNITS_UNTIL_THOUSAND = %w(十 百 千).map(&:freeze).freeze
   TEN_NUMERALS = %w(零 一 二 三 四 五 六 七 八 九).map(&:freeze).freeze
 
@@ -68,6 +68,40 @@ class Integer
         else
           string[-(index * 4 + mod), mod]
         end
+      end
+    end
+  end
+end
+
+class String
+  UNITS_GREATER_THAN_TEN_THOUSAND = [''].concat(%w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数)).map(&:freeze).freeze
+  TEN_NUMERALS = %w(零 一 二 三 四 五 六 七 八 九).map(&:freeze).freeze
+
+  def to_arabic_numeral
+    sentence_from_one_to_thousand = '(?:[一二三四五六七八九]?千)?(?:[二三四五六七八九]?百)?(?:[二三四五六七八九]?十)?(?:[零一二三四五六七八九])?'
+    sentence = UNITS_GREATER_THAN_TEN_THOUSAND.map { |unit| "(#{sentence_from_one_to_thousand}#{unit})?" }.reverse.join
+    regexp = Regexp.new(sentence)
+
+    first_matches = scan(regexp).first.reverse
+
+    first_matches.each_with_index.inject(0) do |current_total, (first_match, first_match_s_index)|
+      if !first_match.nil?
+        matches = first_match.scan(/([一二三四五六七八九]?千)?([二三四五六七八九]?百)?([二三四五六七八九]?十)?([零一二三四五六七八九])?/).first.reverse
+        sum = matches.each_with_index.inject(0) do |current_sum, (match, index)|
+          numeral = match&.slice(/[零一二三四五六七八九]/)
+          
+          if match.nil?
+            current_sum
+          elsif numeral.nil?
+            current_sum + (10 ** (index))
+          else
+            current_sum + ((10 ** (index)) * TEN_NUMERALS.index(numeral))
+          end
+        end
+
+        current_total + (sum * (10 ** (4 * first_match_s_index)))
+      else
+        current_total
       end
     end
   end

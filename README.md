@@ -1,8 +1,6 @@
 # ConvertNumeral
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/convert_numeral`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem convert arabic numeral what is 0 to 9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999_9999 into chinese numeral, and vice versa.
 
 ## Installation
 
@@ -22,17 +20,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+'零'.to_arabic_numeral
+# => 0
 
-## Development
+'千五百十'.to_arabic_numeral
+#=> 1510
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+'千九百億一千万一千'.to_arabic_numeral
+#=> 190010001000
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+0.to_chinese_numeral
+#=> "零"
+
+1510.to_chinese_numeral
+#=> "千五百十"
+
+190010001000.to_chinese_numeral
+#=> "千九百億一千万一千"
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/convert_numeral.
+1. Fork it ( https://github.com/sanfrecce-osaka/convert_numeral/fork )
+1. Create your feature branch (git checkout -b my-new-feature)
+1. Commit your changes (git commit -am 'Add some feature')
+1. Push to the branch (git push origin my-new-feature)
+1. Create a new Pull Request
 
 ## License
 
